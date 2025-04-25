@@ -1,4 +1,4 @@
-// server/controllers/dashboardController.js
+// Description: This file contains the controller for handling dashboard statistics and data retrieval.
 const Client = require('../models/Client');
 const Program = require('../models/Program');
 const User = require('../models/User');
@@ -90,15 +90,3 @@ exports.getDashboardStats = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
-// server/routes/dashboardRoutes.js
-const express = require('express');
-const { getDashboardStats } = require('../controllers/dashboardController');
-const { protect } = require('../middleware/auth');
-
-const router = express.Router();
-
-router.use(protect); // All dashboard routes are protected
-router.get('/', getDashboardStats);
-
-module.exports = router;

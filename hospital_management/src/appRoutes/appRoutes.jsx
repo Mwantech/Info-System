@@ -1,11 +1,11 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from './context/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 // Pages
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import ProgramsManagement from './pages/ProgramsManagement';
+import Login from '../components/LoginPage';
+import Dashboard from '../components/Dashboard';
+import ProgramsManagement from '../components/ProgramsManagement';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {

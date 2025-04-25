@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getDashboardStats } from '../services/dashboardService';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 // Component for displaying a stat card
 const StatCard = ({ title, value, icon, color }) => {
