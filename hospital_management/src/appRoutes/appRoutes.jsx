@@ -8,6 +8,8 @@ import Dashboard from '../components/Dashboard';
 import ProgramsManagement from '../components/ProgramsManagement';
 import ClientList from '../components/Clientlists';
 import ClientRegistration from '../components/ClientRegistration';
+import ClientDetail from '../components/ClientView';
+import ClientEdit from '../components/ClientEdit';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -51,6 +53,24 @@ const AppRoutes = () => {
       <Route path="/clients/register" element={
         <ProtectedRoute>
           <ClientRegistration />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/clients/new" element={
+        <ProtectedRoute>
+          <ClientRegistration />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/clients/:id" element={
+        <ProtectedRoute>
+          <ClientDetail />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/clients/:id/edit" element={
+        <ProtectedRoute>
+          <ClientEdit />
         </ProtectedRoute>
       } />
       

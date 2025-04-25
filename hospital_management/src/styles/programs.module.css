@@ -1,0 +1,375 @@
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(75, 85, 99, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+  }
+  
+  .modalContainer {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 28rem;
+    margin: 0 1rem;
+  }
+  
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .modalTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+  }
+  
+  .closeButton {
+    color: #6b7280;
+  }
+  
+  .closeButton:hover {
+    color: #374151;
+  }
+  
+  .closeIcon {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+  
+  .errorMessage {
+    background-color: #fee2e2;
+    border: 1px solid #f87171;
+    color: #b91c1c;
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .formGroup {
+    margin-bottom: 1rem;
+  }
+  
+  .label {
+    display: block;
+    color: #374151;
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  
+  .input {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    appearance: none;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    width: 90%;
+    padding: 0.5rem 0.75rem;
+    color: #374151;
+    line-height: 1.5;
+  }
+  
+  .input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  }
+  
+  .textarea {
+    composes: input;
+    height: 8rem;
+  }
+  
+  .checkboxContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .checkbox {
+    height: 1.25rem;
+    width: 1.25rem;
+    color: #4f46e5;
+  }
+  
+  .checkboxLabel {
+    margin-left: 0.5rem;
+    color: #374151;
+  }
+  
+  .formActions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .cancelButton {
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    background-color: #e5e7eb;
+    border-radius: 0.375rem;
+  }
+  
+  .cancelButton:hover {
+    background-color: #d1d5db;
+  }
+  
+  .cancelButton:focus {
+    outline: none;
+    ring: 2px;
+    ring-offset: 2px;
+    ring-color: #9ca3af;
+  }
+  
+  .submitButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    background-color: #4f46e5;
+    border-radius: 0.375rem;
+  }
+  
+  .submitButton:hover {
+    background-color: #4338ca;
+  }
+  
+  .submitButton:focus {
+    outline: none;
+    ring: 2px;
+    ring-offset: 2px;
+    ring-color: #4f46e5;
+  }
+  
+  .submitButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .container {
+    min-height: 100vh;
+    background-color: #f3f4f6;
+  }
+  
+  .header {
+    background-color: white;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  .headerContent {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .headerTitle {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #111827;
+  }
+  
+  .backLink {
+    color: #4f46e5;
+  }
+  
+  .backLink:hover {
+    color: #3730a3;
+  }
+  
+  .main {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+  }
+  
+  .errorContainer {
+    background-color: #fee2e2;
+    border: 1px solid #f87171;
+    color: #b91c1c;
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  
+  .errorCloseButton {
+    float: right;
+  }
+  
+  .createButtonContainer {
+    margin-bottom: 1.5rem;
+  }
+  
+  .createButton {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    background-color: #4f46e5;
+  }
+  
+  .createButton:hover {
+    background-color: #4338ca;
+  }
+  
+  .createButton:focus {
+    outline: none;
+    ring: 2px;
+    ring-offset: 2px;
+    ring-color: #4f46e5;
+  }
+  
+  .createButtonIcon {
+    margin-left: -0.25rem;
+    margin-right: 0.5rem;
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+  
+  .programsList {
+    background-color: white;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border-radius: 0.375rem;
+  }
+  
+  .programItem {
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .programItem:last-child {
+    border-bottom: none;
+  }
+  
+  .programContent {
+    padding: 1rem;
+  }
+  
+  .programHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .programNameContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .statusIndicator {
+    flex-shrink: 0;
+    height: 0.75rem;
+    width: 0.75rem;
+    border-radius: 9999px;
+  }
+  
+  .statusActive {
+    background-color: #10b981;
+  }
+  
+  .statusInactive {
+    background-color: #9ca3af;
+  }
+  
+  .programName {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4f46e5;
+  }
+  
+  .actionButtons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .editButton {
+    color: #4f46e5;
+  }
+  
+  .editButton:hover {
+    color: #3730a3;
+  }
+  
+  .deleteButton {
+    color: #dc2626;
+  }
+  
+  .deleteButton:hover {
+    color: #b91c1c;
+  }
+  
+  .actionIcon {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+  
+  .programDetails {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @media (min-width: 640px) {
+    .programDetails {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  
+  .programDescription {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .programDate {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  @media (min-width: 640px) {
+    .programDate {
+      margin-top: 0;
+    }
+  }
+  
+  .emptyMessage {
+    padding: 1.25rem;
+    text-align: center;
+    color: #6b7280;
+  }
+  
+  .loadingContainer {
+    min-height: 100vh;
+    background-color: #f3f4f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loadingText {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #6b7280;
+  }

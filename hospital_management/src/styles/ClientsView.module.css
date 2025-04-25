@@ -1,0 +1,476 @@
+/* Main container */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  /* Loading & Error states */
+  .loadingContainer, .emptyState {
+    text-align: center;
+    padding: 3rem 0;
+  }
+  
+  .spinner {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: 4px solid rgba(79, 70, 229, 0.3);
+    border-radius: 50%;
+    border-top-color: #4F46E5;
+    animation: spin 1s ease-in-out infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .loadingText {
+    margin-top: 0.5rem;
+    color: #6B7280;
+  }
+  
+  .errorMessage {
+    background-color: #FEE2E2;
+    border: 1px solid #F87171;
+    color: #B91C1C;
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .errorTitle {
+    font-weight: 700;
+  }
+  
+  .backLinkContainer {
+    margin-top: 1rem;
+  }
+  
+  .backLink {
+    color: #4F46E5;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .backLink:hover {
+    color: #4338CA;
+  }
+  
+  .emptyStateText {
+    color: #6B7280;
+  }
+  
+  /* Header section */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .clientName {
+    margin-top: 0.5rem;
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.2;
+  }
+  
+  @media (min-width: 640px) {
+    .clientName {
+      font-size: 2.25rem;
+    }
+  }
+  
+  .actionButtons {
+    display: flex;
+    gap: 0.75rem;
+  }
+  
+  .editButton {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: white;
+    background-color: #4F46E5;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+  
+  .editButton:hover {
+    background-color: #4338CA;
+  }
+  
+  .editButton:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #4F46E5;
+  }
+  
+  /* Card with tabs */
+  .card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+  }
+  
+  /* Tab navigation */
+  .tabBar {
+    border-bottom: 1px solid #E5E7EB;
+  }
+  
+  .tabNav {
+    display: flex;
+    margin-bottom: -1px;
+  }
+  
+  .tabButton {
+    padding: 1rem 1.5rem;
+    text-align: center;
+    border-bottom: 2px solid transparent;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6B7280;
+    background: none;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  
+  .tabButton:hover:not(.activeTab) {
+    color: #374151;
+    border-color: #D1D5DB;
+  }
+  
+  .activeTab {
+    color: #4F46E5;
+    border-color: #4F46E5;
+  }
+  
+  /* Section content */
+  .sectionContent {
+    padding: 1.25rem;
+  }
+  
+  @media (min-width: 640px) {
+    .sectionContent {
+      padding: 1.5rem;
+    }
+  }
+  
+  /* Info grid layout */
+  .infoGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 640px) {
+    .infoGrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  .fullWidthSection {
+    grid-column: 1 / -1;
+  }
+  
+  .infoSection {
+    margin-bottom: 1rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 0.5rem;
+  }
+  
+  .infoList {
+    margin-top: 0.5rem;
+  }
+  
+  .infoItem {
+    margin-top: 0.75rem;
+  }
+  
+  .infoLabel {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6B7280;
+  }
+  
+  .infoValue {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #374151;
+  }
+  
+  .emergencyContactGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  @media (min-width: 640px) {
+    .emergencyContactGrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  /* Section header with action button */
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .smallActionButton {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: white;
+    background-color: #4F46E5;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .smallActionButton:hover {
+    background-color: #4338CA;
+  }
+  
+  .smallActionButton:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #4F46E5;
+  }
+  
+  /* Program enrollments table */
+  .tableWrapper {
+    margin-top: 1rem;
+    overflow-x: auto;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    border: 1px solid #E5E7EB;
+  }
+  
+  .table {
+    min-width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .tableHeader {
+    background-color: #F9FAFB;
+  }
+  
+  .tableHeaderCell {
+    padding: 0.875rem 1rem;
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #111827;
+  }
+  
+  .tableHeaderCell:first-child {
+    padding-left: 1.5rem; 
+  }
+  
+  .tableHeaderCell:last-child {
+    padding-right: 1.5rem;
+  }
+  
+  .tableRow {
+    border-top: 1px solid #E5E7EB;
+  }
+  
+  .tableCell {
+    padding: 1rem;
+    font-size: 0.875rem;
+    color: #6B7280;
+    white-space: nowrap;
+  }
+  
+  .tableCell:first-child {
+    padding-left: 1.5rem;
+  }
+  
+  .tableCellActions {
+    padding: 1rem;
+    text-align: right;
+    white-space: nowrap;
+    padding-right: 1.5rem;
+  }
+  
+  .programName {
+    font-weight: 500;
+    color: #111827;
+  }
+  
+  /* Status badges */
+  .statusBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  
+  .statusActive {
+    background-color: #D1FAE5;
+    color: #065F46;
+  }
+  
+  .statusCompleted {
+    background-color: #DBEAFE;
+    color: #1E40AF;
+  }
+  
+  .statusWithdrawn {
+    background-color: #FEE2E2;
+    color: #B91C1C;
+  }
+  
+  .statusDefault {
+    background-color: #F3F4F6;
+    color: #4B5563;
+  }
+  
+  /* Action buttons */
+  .viewButton, .removeButton {
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s;
+    text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .viewButton {
+    color: #4F46E5;
+    margin-right: 1rem;
+  }
+  
+  .viewButton:hover {
+    color: #4338CA;
+    background-color: #EEF2FF;
+  }
+  
+  .removeButton {
+    color: #DC2626;
+  }
+  
+  .removeButton:hover {
+    color: #B91C1C;
+    background-color: #FEE2E2;
+  }
+  
+  /* Notes timeline */
+  .timelineContainer {
+    padding: 0.5rem 0;
+  }
+  
+  .timeline {
+    position: relative;
+  }
+  
+  .timelineItem {
+    position: relative;
+  }
+  
+  .timelineContent {
+    position: relative;
+    padding-bottom: 2rem;
+  }
+  
+  .timelineConnector {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    width: 0.125rem;
+    height: calc(100% - 1.25rem);
+    background-color: #E5E7EB;
+  }
+  
+  .timelineEntry {
+    display: flex;
+    position: relative;
+  }
+  
+  .timelineIcon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #E5E7EB;
+    border-radius: 50%;
+    margin-right: 1rem;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+  
+  .noteIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #6B7280;
+  }
+  
+  .timelineBody {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .noteAuthor {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+  }
+  
+  .noteDate {
+    margin-top: 0.125rem;
+    font-size: 0.75rem;
+    color: #6B7280;
+  }
+  
+  .noteContent {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: #374151;
+  }
+  
+  .noteCategory {
+    margin-top: 0.5rem;
+  }
+  
+  .categoryTag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: #F3F4F6;
+    color: #4B5563;
+  }

@@ -3,6 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getDashboardStats } from '../services/dashboardService';
 import { useAuth } from '../contexts/AuthContext';
 import styles from '../styles/dashboard.module.css';
+import { 
+  Plus, 
+  Search, 
+  FileText, 
+  LogOut,
+  Users, 
+  Clipboard, 
+  CheckCircle, 
+  UserPlus, 
+  Star,
+  UserCog
+} from 'lucide-react';
 
 // Component for displaying a stat card
 const StatCard = ({ title, value, icon, color }) => {
@@ -12,8 +24,8 @@ const StatCard = ({ title, value, icon, color }) => {
     <div className={borderColorClass}>
       <div className={styles.cardContent}>
         <div className="flex items-center">
-          <div className={styles.cardIcon}>
-            <span className={styles.cardIconText}>{icon}</span>
+          <div className={`${styles.cardIcon} ${styles[`bg${color.replace('border-', '')}`]}`}>
+            {icon}
           </div>
           <div className={styles.cardText}>
             <dl>
@@ -34,7 +46,10 @@ const RecentEnrollments = ({ enrollments }) => {
   return (
     <div className={styles.section}>
       <div className={styles.sectionHeader}>
-        <h3 className={styles.sectionTitle}>Recent Enrollments</h3>
+        <div className="flex items-center">
+          <UserPlus className={styles.sectionIcon} size={18} />
+          <h3 className={styles.sectionTitle}>Recent Enrollments</h3>
+        </div>
       </div>
       <div className={styles.sectionBorder}>
         <ul className={styles.list}>
@@ -66,7 +81,10 @@ const PopularPrograms = ({ programs }) => {
   return (
     <div className={styles.section}>
       <div className={styles.sectionHeader}>
-        <h3 className={styles.sectionTitle}>Popular Programs</h3>
+        <div className="flex items-center">
+          <Star className={styles.sectionIcon} size={18} />
+          <h3 className={styles.sectionTitle}>Popular Programs</h3>
+        </div>
       </div>
       <div className={styles.sectionBorder}>
         <ul className={styles.list}>
@@ -137,6 +155,7 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
+        <div className={styles.loadingSpinner}></div>
         <div className={styles.loadingText}>Loading dashboard data...</div>
       </div>
     );
@@ -156,14 +175,12 @@ const Dashboard = () => {
         <div className={styles.headerContent}>
           <h1 className={styles.title}>Dashboard</h1>
           <div className="flex items-center space-x-4">
-            <span className="text-gray-700">Welcome, {user?.name}</span>
+            <span className={styles.welcomeText}>Welcome, {user?.name}</span>
             <button
               onClick={handleLogout}
-              className="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              className={styles.logoutButton}
             >
-              <svg className="-ml-0.5 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
+              <LogOut size={16} className={styles.buttonIcon} />
               Logout
             </button>
           </div>
@@ -173,44 +190,23 @@ const Dashboard = () => {
       <main className={styles.main}>
         {/* Quick Action Buttons */}
         <div className={styles.quickActions}>
-          <Link
-            to="/programs/new"
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            <svg className="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
-            </svg>
+          <Link to="/programs/new" className={`${styles.actionButton} ${styles.indigo}`}>
+            <Plus size={18} className={styles.buttonIcon} />
             Create Program
           </Link>
           
-          <Link
-            to="/clients/register"
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-          >
-            <svg className="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
-            </svg>
+          <Link to="/clients/register" className={`${styles.actionButton} ${styles.green}`}>
+            <UserPlus size={18} className={styles.buttonIcon} />
             Register Client
           </Link>
           
-          <Link
-            to="/clients"
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            <svg className="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-            </svg>
+          <Link to="/clients" className={`${styles.actionButton} ${styles.blue}`}>
+            <Search size={18} className={styles.buttonIcon} />
             Search Clients
           </Link>
           
-          <Link
-            to="/programs"
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-          >
-            <svg className="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-              <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
-            </svg>
+          <Link to="/programs" className={`${styles.actionButton} ${styles.purple}`}>
+            <FileText size={18} className={styles.buttonIcon} />
             Manage Programs
           </Link>
         </div>
@@ -220,31 +216,31 @@ const Dashboard = () => {
           <StatCard
             title="Total Clients"
             value={stats.totalClients}
-            icon="👥"
+            icon={<Users size={24} className={styles.statIcon} />}
             color="border-blue-500"
           />
           <StatCard
             title="Total Programs"
             value={stats.totalPrograms}
-            icon="📋"
+            icon={<Clipboard size={24} className={styles.statIcon} />}
             color="border-indigo-500"
           />
           <StatCard
             title="Active Programs"
             value={stats.activePrograms}
-            icon="✅"
+            icon={<CheckCircle size={24} className={styles.statIcon} />}
             color="border-green-500"
           />
           <StatCard
             title="Doctors"
             value={stats.totalDoctors}
-            icon="👨‍⚕️"
+            icon={<UserCog size={24} className={styles.statIcon} />}
             color="border-purple-500"
           />
           <StatCard
             title="Recent Clients"
             value={stats.recentClients}
-            icon="🆕"
+            icon={<UserPlus size={24} className={styles.statIcon} />}
             color="border-yellow-500"
           />
         </div>

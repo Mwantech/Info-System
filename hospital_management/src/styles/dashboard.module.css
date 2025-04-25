@@ -1,188 +1,420 @@
-/* dashboard.module.css */
-
-/* Main container styles */
+/* Main layout */
 .container {
-    min-height: 100vh;
-    background-color: #f7fafc;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header {
+  background-color: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.welcomeText {
+  color: #4b5563;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.main {
+  padding-bottom: 2rem;
+}
+
+/* Buttons */
+.logoutButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  background-color: #ef4444;
+  transition: background-color 0.2s;
+}
+
+.logoutButton:hover {
+  background-color: #dc2626;
+}
+
+.logoutButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.5);
+}
+
+.buttonIcon {
+  margin-right: 0.5rem;
+  margin-left: -0.125rem;
+}
+
+/* Quick action buttons */
+.quickActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  transition: all 0.2s;
+}
+
+.actionButton.indigo {
+  background-color: #6366f1;
+}
+
+.actionButton.indigo:hover {
+  background-color: #4f46e5;
+}
+
+.actionButton.green {
+  background-color: #10b981;
+}
+
+.actionButton.green:hover {
+  background-color: #059669;
+}
+
+.actionButton.blue {
+  background-color: #3b82f6;
+}
+
+.actionButton.blue:hover {
+  background-color: #2563eb;
+}
+
+.actionButton.purple {
+  background-color: #8b5cf6;
+}
+
+.actionButton.purple:hover {
+  background-color: #7c3aed;
+}
+
+/* Stats grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Info grid (Programs & Enrollments) */
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .infoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Stat cards */
+.statCard {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+  padding: 1.25rem;
+  border-top: 4px solid transparent;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  margin-right: 1rem;
+  border-radius: 0.5rem;
+  color: white;
+}
+
+.statIcon {
+  stroke-width: 2;
+}
+
+.cardText {
+  flex: 1;
+}
+
+.cardTitle {
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.cardValue {
+  color: #111827;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+/* Stat card border and background colors */
+.borderBlue500 {
+  border-top-color: #3b82f6;
+}
+
+.bgBlue500 {
+  background-color: #3b82f6;
+}
+
+.borderIndigo500 {
+  border-top-color: #6366f1;
+}
+
+.bgIndigo500 {
+  background-color: #6366f1;
+}
+
+.borderGreen500 {
+  border-top-color: #10b981;
+}
+
+.bgGreen500 {
+  background-color: #10b981;
+}
+
+.borderPurple500 {
+  border-top-color: #8b5cf6;
+}
+
+.bgPurple500 {
+  background-color: #8b5cf6;
+}
+
+.borderYellow500 {
+  border-top-color: #f59e0b;
+}
+
+.bgYellow500 {
+  background-color: #f59e0b;
+}
+
+/* Section styling */
+.section {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.sectionHeader {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sectionIcon {
+  color: #6366f1;
+  margin-right: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+  display: inline;
+}
+
+.sectionBorder {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 320px;
+}
+
+/* List styling */
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.listItem:hover {
+  background-color: #f9fafb;
+}
+
+.listItemBorder {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.clientName {
+  font-weight: 500;
+  color: #111827;
+}
+
+.programName {
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.enrollmentDate {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.enrollmentCount {
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.noDataText {
+  color: #6b7280;
+  font-style: italic;
+  text-align: center;
+  width: 100%;
+}
+
+/* Loading and error states */
+.loadingContainer,
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  width: 100%;
+}
+
+.loadingSpinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 3px solid #e5e7eb;
+  border-radius: 50%;
+  border-top-color: #6366f1;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingText {
+  font-size: 1.125rem;
+  color: #6b7280;
+}
+
+.errorText {
+  color: #ef4444;
+  font-size: 1.125rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 639px) {
+  .quickActions {
+    flex-direction: column;
   }
   
-  /* Header styles */
-  .header {
-    background-color: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  .quickActions a {
+    width: 100%;
+    justify-content: center;
   }
   
   .headerContent {
-    max-width: 80rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 1.5rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 767px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2rem;
   }
   
   .title {
     font-size: 1.875rem;
-    font-weight: 700;
-    color: #1a202c;
   }
-  
-  /* Main content styles */
-  .main {
-    max-width: 80rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 1.5rem 1rem;
+}
+
+@media (min-width: 1024px) {
+  .header {
+    padding: 1.5rem 0;
   }
-  
-  /* Quick actions styles */
-  .quickActions {
-    margin-bottom: 1.5rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  
-  /* Stats grid styles */
-  .statsGrid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  @media (min-width: 640px) {
-    .statsGrid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .statsGrid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  
-  /* Stat card styles */
-  .statCard {
-    background-color: white;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
-    border-left-width: 4px;
-    border-left-style: solid;
-  }
-  
-  .cardContent {
-    padding: 1.25rem;
-  }
-  
-  .cardIcon {
-    flex-shrink: 0;
-  }
-  
-  .cardText {
-    margin-left: 1.25rem;
-    width: 0;
-    flex-grow: 1;
-  }
-  
-  .cardTitle {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #6b7280;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  
-  .cardValue {
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: #111827;
-  }
-  
-  /* Section styles */
-  .section {
-    background-color: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
-  }
-  
-  .sectionHeader {
-    padding: 1rem 1.5rem;
-  }
-  
-  .sectionTitle {
-    font-size: 1.125rem;
-    line-height: 1.5rem;
-    font-weight: 500;
-    color: #1a202c;
-  }
-  
-  .sectionBorder {
-    border-top-width: 1px;
-    border-color: #e5e7eb;
-  }
-  
-  /* List styles */
-  .list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border-top-width: 1px;
-    border-color: #e5e7eb;
-  }
-  
-  .listItem {
-    padding: 0.75rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .listItemBorder {
-    border-bottom-width: 1px;
-    border-color: #e5e7eb;
-  }
-  
-  /* Loading and error states */
-  .loadingContainer {
-    min-height: 100vh;
-    background-color: #f7fafc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .loadingText {
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: #6b7280;
-  }
-  
-  .errorContainer {
-    min-height: 100vh;
-    background-color: #f7fafc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .errorText {
-    color: #ef4444;
-  }
-  
-  /* Responsive grid for program and enrollment sections */
-  .infoGrid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 1.25rem;
-  }
-  
-  @media (min-width: 1024px) {
-    .infoGrid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
+}
