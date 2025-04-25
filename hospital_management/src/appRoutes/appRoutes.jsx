@@ -6,6 +6,8 @@ import { useAuth } from '../contexts/AuthContext';
 import Login from '../components/LoginPage';
 import Dashboard from '../components/Dashboard';
 import ProgramsManagement from '../components/ProgramsManagement';
+import ClientList from '../components/Clientlists';
+import ClientRegistration from '../components/ClientRegistration';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -26,16 +28,38 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      
       <Route path="/dashboard" element={
         <ProtectedRoute>
           <Dashboard />
         </ProtectedRoute>
       } />
+      
       <Route path="/programs" element={
         <ProtectedRoute>
           <ProgramsManagement />
         </ProtectedRoute>
       } />
+      
+      {/* Client routes */}
+      <Route path="/clients" element={
+        <ProtectedRoute>
+          <ClientList />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/clients/register" element={
+        <ProtectedRoute>
+          <ClientRegistration />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/programs/new" element={
+        <ProtectedRoute>
+          <ProgramsManagement isCreating={true} />
+        </ProtectedRoute>
+      } />
+      
       <Route path="/" element={<Navigate to="/dashboard" />} />
       <Route path="*" element={<Navigate to="/dashboard" />} />
     </Routes>

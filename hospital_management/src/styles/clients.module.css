@@ -1,0 +1,44 @@
+
+.spinner {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 3px solid rgba(79, 70, 229, 0.2);
+    border-top-color: rgba(79, 70, 229, 1);
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .actionLink {
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  
+  .actionLink:hover {
+    color: #4338ca;
+    text-decoration: underline;
+  }
+  
+  .actionLink:active {
+    transform: translateY(1px);
+  }
+  
+  /* Table hover effects */
+  tr:hover .actionLink {
+    color: #4f46e5;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .actionLink {
+      display: block;
+      margin: 0.25rem 0;
+    }
+  }
