@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { getClients } from '../services/clientService';
+import { getClients, deleteClient } from '../services/clientService';
 import { format } from 'date-fns';
 import styles from '../styles/clients.module.css';
 
@@ -13,6 +13,11 @@ const ClientList = () => {
     page: 1,
     pages: 1,
     total: 0
+  });
+  const [deleteConfirmation, setDeleteConfirmation] = useState({
+    isOpen: false,
+    clientId: null,
+    clientName: ''
   });
   
   const navigate = useNavigate();
@@ -45,9 +50,22 @@ const ClientList = () => {
     }
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    navigate(`/clients?page=1&query=${encodeURIComponent(searchQuery)}`);
+  // Modified to trigger search automatically on input change with debounce
+  const handleSearchChange = (e) => {
+    const newSearchQuery = e.target.value;
+    setSearchQuery(newSearchQuery);
+    
+    // Debounce the search to avoid too many requests while typing
+    clearTimeout(window.searchTimeout);
+    window.searchTimeout = setTimeout(() => {
+      navigate(`/clients?page=1&query=${encodeURIComponent(newSearchQuery)}`);
+    }, 500); // Wait 500ms after typing stops before searching
+  };
+
+  // This function will handle clearing the search when clicking on a client
+  const handleClientClick = () => {
+    setSearchQuery('');
+    navigate('/clients?page=1');
   };
 
   const handlePageChange = (newPage) => {
@@ -86,6 +104,43 @@ const ClientList = () => {
     }
   };
 
+  // New functions for delete functionality
+  const openDeleteConfirmation = (clientId, firstName, lastName) => {
+    setDeleteConfirmation({
+      isOpen: true,
+      clientId,
+      clientName: `${firstName} ${lastName}`
+    });
+  };
+
+  const closeDeleteConfirmation = () => {
+    setDeleteConfirmation({
+      isOpen: false,
+      clientId: null,
+      clientName: ''
+    });
+  };
+
+  const handleDeleteClient = async () => {
+    if (!deleteConfirmation.clientId) return;
+
+    try {
+      await deleteClient(deleteConfirmation.clientId);
+      
+      // Refresh the client list
+      fetchClients(page, query);
+      
+      // Show success message (could use a toast notification system)
+      setError('');
+      
+      // Close the confirmation dialog
+      closeDeleteConfirmation();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Error deleting client');
+      closeDeleteConfirmation();
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>
@@ -103,29 +158,20 @@ const ClientList = () => {
             Register New Client
           </Link>
 
-
           <Link to="/dashboard" className={styles.backLink}>
-                      Back to Dashboard
+            Back to Dashboard
           </Link>
         </div>
 
-        {/* Search Bar */}
+        {/* Modified Search Bar - removed form and submit button */}
         <div className={styles.searchContainer}>
-          <form onSubmit={handleSearch} className={styles.searchForm}>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by name or contact number"
-              className={styles.searchInput}
-            />
-            <button
-              type="submit"
-              className={styles.searchButton}
-            >
-              Search
-            </button>
-          </form>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Search by name or contact number"
+            className={styles.searchInput}
+          />
         </div>
 
         {error && (
@@ -197,15 +243,23 @@ const ClientList = () => {
                         <Link 
                           to={`/clients/${client._id}`} 
                           className={styles.viewButton}
+                          onClick={handleClientClick}
                         >
                           View
                         </Link>
                         <Link 
                           to={`/clients/${client._id}/edit`} 
                           className={styles.editButton}
+                          onClick={handleClientClick}
                         >
                           Edit
                         </Link>
+                        <button
+                          className={styles.deleteButton}
+                          onClick={() => openDeleteConfirmation(client._id, client.firstName, client.lastName)}
+                        >
+                          Delete
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -295,6 +349,34 @@ const ClientList = () => {
                     <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                   </svg>
                 </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Delete Confirmation Modal */}
+        {deleteConfirmation.isOpen && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modal} role="dialog" aria-labelledby="delete-confirmation-title">
+              <div className={styles.modalContent}>
+                <h4 id="delete-confirmation-title" className={styles.modalTitle}>Confirm Delete</h4>
+                <p className={styles.modalText}>
+                  Are you sure you want to delete {deleteConfirmation.clientName}? This action cannot be undone.
+                </p>
+                <div className={styles.modalActions}>
+                  <button
+                    onClick={closeDeleteConfirmation}
+                    className={styles.cancelButton}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleDeleteClient}
+                    className={styles.confirmDeleteButton}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
           </div>

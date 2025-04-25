@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getClient } from '../services/clientService';
+import { getClient, enrollClientInProgram, removeClientFromProgram, updateEnrollmentStatus } from '../services/clientService';
+import { getPrograms } from '../services/programService'; // Import the getPrograms function
 import { format } from 'date-fns';
 import styles from '../styles/ClientsView.module.css';
 
@@ -11,9 +12,16 @@ const ClientDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [expandedSection, setExpandedSection] = useState('personal');
+  const [programs, setPrograms] = useState([]);
+  const [selectedProgram, setSelectedProgram] = useState('');
+  const [enrollmentLoading, setEnrollmentLoading] = useState(false);
+  const [enrollmentMessage, setEnrollmentMessage] = useState('');
+  const [availablePrograms, setAvailablePrograms] = useState([]);
+  const [loadingPrograms, setLoadingPrograms] = useState(false);
 
   useEffect(() => {
     fetchClientDetails();
+    fetchAvailablePrograms();
   }, [id]);
 
   const fetchClientDetails = async () => {
@@ -24,6 +32,11 @@ const ClientDetail = () => {
       // Extract the actual client data from the response
       const clientData = response.data || response;
       setClient(clientData);
+      
+      // If client has enrollments, set them to the programs state
+      if (clientData.enrollments && clientData.enrollments.length > 0) {
+        setPrograms(clientData.enrollments);
+      }
     } catch (err) {
       console.error("Error fetching client:", err); // Debug log
       setError(err.response?.data?.message || 'Error loading client details');
@@ -31,6 +44,99 @@ const ClientDetail = () => {
       setLoading(false);
     }
   };
+
+  const fetchAvailablePrograms = async () => {
+    setLoadingPrograms(true);
+    try {
+      // Use the getPrograms function from the programService instead of direct fetch
+      const response = await getPrograms();
+      console.log("Programs data received:", response); // Debug log
+      
+      if (response.success) {
+        // Filter active programs only if needed
+        const activePrograms = response.data.filter(program => program.active);
+        setAvailablePrograms(activePrograms);
+      } else {
+        // If API returns all programs without a filter
+        setAvailablePrograms(response.data || []);
+      }
+    } catch (err) {
+      console.error("Error fetching programs:", err);
+    } finally {
+      setLoadingPrograms(false);
+    }
+  };
+
+  const handleEnrollProgram = async (e) => {
+    e.preventDefault();
+    if (!selectedProgram) return;
+
+    setEnrollmentLoading(true);
+    setEnrollmentMessage('');
+    
+    try {
+      const response = await enrollClientInProgram(id, { programId: selectedProgram });
+      
+      if (response.success) {
+        // Update client data with new enrollment
+        setClient(response.data);
+        setPrograms(response.data.enrollments);
+        setSelectedProgram('');
+        setEnrollmentMessage('Client successfully enrolled in program');
+        
+        // Refresh client details
+        fetchClientDetails();
+      }
+    } catch (err) {
+      console.error("Error enrolling client in program:", err);
+      setEnrollmentMessage(err.response?.data?.message || 'Error enrolling client in program');
+    } finally {
+      setEnrollmentLoading(false);
+    }
+  };
+
+  const handleRemoveFromProgram = async (programId) => {
+    if (!window.confirm('Are you sure you want to remove the client from this program?')) {
+      return;
+    }
+    
+    try {
+      const response = await removeClientFromProgram(id, programId);
+      
+      if (response.success) {
+        // Update client data with removed enrollment
+        setClient(response.data);
+        setPrograms(response.data.enrollments);
+        setEnrollmentMessage('Client removed from program successfully');
+        
+        // Refresh client details
+        fetchClientDetails();
+      }
+    } catch (err) {
+      console.error("Error removing client from program:", err);
+      setEnrollmentMessage(err.response?.data?.message || 'Error removing client from program');
+    }
+  };
+
+  const handleUpdateStatus = async (programId, newStatus) => {
+    try {
+      const response = await updateEnrollmentStatus(id, programId, { status: newStatus });
+      
+      if (response.success) {
+        // Update client data with updated enrollment status
+        setClient(response.data);
+        setPrograms(response.data.enrollments);
+        setEnrollmentMessage(`Enrollment status updated to ${newStatus}`);
+        
+        // Refresh client details
+        fetchClientDetails();
+      }
+    } catch (err) {
+      console.error("Error updating enrollment status:", err);
+      setEnrollmentMessage(err.response?.data?.message || 'Error updating enrollment status');
+    }
+  };
+
   const formatDate = (dateString) => {
     if (!dateString) return 'Not available';
     
@@ -134,6 +240,14 @@ const ClientDetail = () => {
             >
               Personal Information
             </button>
+            <button
+              className={`${styles.tabButton} ${
+                expandedSection === 'programs' ? styles.activeTab : ''
+              }`}
+              onClick={() => setExpandedSection('programs')}
+            >
+              Programs
+            </button>
           </nav>
         </div>
 
@@ -219,6 +333,119 @@ const ClientDetail = () => {
                   </dl>
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* Programs Section */}
+        {expandedSection === 'programs' && (
+          <div className={styles.sectionContent}>
+            <div className={styles.programsContainer}>
+              <h3 className={styles.sectionTitle}>Client Programs</h3>
+              
+              {/* Enroll in Program Form */}
+              <div className={styles.enrollForm}>
+                <h4>Enroll in New Program</h4>
+                <form onSubmit={handleEnrollProgram} className={styles.formRow}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="program" className={styles.formLabel}>Select Program</label>
+                    <select
+                      id="program"
+                      value={selectedProgram}
+                      onChange={(e) => setSelectedProgram(e.target.value)}
+                      className={styles.formSelect}
+                      disabled={enrollmentLoading || loadingPrograms}
+                    >
+                      <option value="">Select a program</option>
+                      {availablePrograms.length > 0 ? (
+                        availablePrograms.map((program) => (
+                          <option key={program._id} value={program._id}>
+                            {program.name}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="" disabled>No available programs</option>
+                      )}
+                    </select>
+                  </div>
+                  <button
+                    type="submit"
+                    className={styles.enrollButton}
+                    disabled={!selectedProgram || enrollmentLoading}
+                  >
+                    {enrollmentLoading ? 'Enrolling...' : 'Enroll'}
+                  </button>
+                </form>
+                
+                {loadingPrograms && (
+                  <div className={styles.loadingMessage}>
+                    Loading available programs...
+                  </div>
+                )}
+                
+                {enrollmentMessage && (
+                  <div className={styles.messageAlert} role="alert">
+                    {enrollmentMessage}
+                  </div>
+                )}
+              </div>
+              
+              {/* Enrolled Programs List */}
+              <div className={styles.programsList}>
+                <h4>Enrolled Programs</h4>
+                {programs && programs.length > 0 ? (
+                  <div className={styles.programsTable}>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Program Name</th>
+                          <th>Description</th>
+                          <th>Enrollment Date</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {programs.map((enrollment) => (
+                          <tr key={enrollment._id || (enrollment.program && enrollment.program._id) || Math.random()}>
+                            <td>{enrollment.program && enrollment.program.name}</td>
+                            <td>{enrollment.program && enrollment.program.description}</td>
+                            <td>{formatDate(enrollment.enrollmentDate)}</td>
+                            <td>
+                              <span className={`${styles.statusBadge} ${styles[enrollment.status]}`}>
+                                {enrollment.status}
+                              </span>
+                            </td>
+                            <td className={styles.actionCell}>
+                              <div className={styles.actionDropdown}>
+                                <select
+                                  className={styles.statusSelect}
+                                  value={enrollment.status}
+                                  onChange={(e) => handleUpdateStatus(enrollment.program && enrollment.program._id, e.target.value)}
+                                >
+                                  <option value="active">Active</option>
+                                  <option value="completed">Completed</option>
+                                  <option value="withdrawn">Withdrawn</option>
+                                </select>
+                                <button
+                                  onClick={() => handleRemoveFromProgram(enrollment.program && enrollment.program._id)}
+                                  className={styles.removeButton}
+                                >
+                                  Remove
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className={styles.noPrograms}>
+                    <p>Client is not enrolled in any programs.</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
