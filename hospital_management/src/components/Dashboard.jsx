@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getDashboardStats } from '../services/dashboardService';
 import { useAuth } from '../contexts/AuthContext';
+import styles from '../styles/dashboard.module.css';
 
 // Component for displaying a stat card
 const StatCard = ({ title, value, icon, color }) => {
+  const borderColorClass = `${styles.statCard} ${styles[`border${color.replace('border-', '')}`]}`;
+  
   return (
-    <div className={`bg-white overflow-hidden shadow rounded-lg border-l-4 ${color}`}>
-      <div className="p-5">
+    <div className={borderColorClass}>
+      <div className={styles.cardContent}>
         <div className="flex items-center">
-          <div className="flex-shrink-0">
-            <span className={`text-${color.replace('border-', '')} text-2xl`}>{icon}</span>
+          <div className={styles.cardIcon}>
+            <span className={styles.cardIconText}>{icon}</span>
           </div>
-          <div className="ml-5 w-0 flex-1">
+          <div className={styles.cardText}>
             <dl>
-              <dt className="text-sm font-medium text-gray-500 truncate">{title}</dt>
+              <dt className={styles.cardTitle}>{title}</dt>
               <dd>
-                <div className="text-lg font-medium text-gray-900">{value}</div>
+                <div className={styles.cardValue}>{value}</div>
               </dd>
             </dl>
           </div>
@@ -29,26 +32,28 @@ const StatCard = ({ title, value, icon, color }) => {
 // Component for displaying recent enrollments
 const RecentEnrollments = ({ enrollments }) => {
   return (
-    <div className="bg-white shadow rounded-lg">
-      <div className="px-4 py-5 sm:px-6">
-        <h3 className="text-lg leading-6 font-medium text-gray-900">Recent Enrollments</h3>
+    <div className={styles.section}>
+      <div className={styles.sectionHeader}>
+        <h3 className={styles.sectionTitle}>Recent Enrollments</h3>
       </div>
-      <div className="border-t border-gray-200">
-        <ul className="divide-y divide-gray-200">
+      <div className={styles.sectionBorder}>
+        <ul className={styles.list}>
           {enrollments.length > 0 ? (
             enrollments.map((enrollment, index) => (
-              <li key={index} className="px-4 py-3">
-                <div className="flex items-center justify-between">
-                  <div className="text-sm font-medium text-indigo-600">{enrollment.clientName}</div>
-                  <div className="text-sm text-gray-500">{enrollment.programName}</div>
-                  <div className="text-sm text-gray-500">
+              <li key={index} className={`${styles.listItem} ${styles.listItemBorder}`}>
+                <div className="flex items-center justify-between w-full">
+                  <div className={styles.clientName}>{enrollment.clientName}</div>
+                  <div className={styles.programName}>{enrollment.programName}</div>
+                  <div className={styles.enrollmentDate}>
                     {new Date(enrollment.enrollmentDate).toLocaleDateString()}
                   </div>
                 </div>
               </li>
             ))
           ) : (
-            <li className="px-4 py-3 text-sm text-gray-500">No recent enrollments</li>
+            <li className={`${styles.listItem} ${styles.listItemBorder}`}>
+              <div className={styles.noDataText}>No recent enrollments</div>
+            </li>
           )}
         </ul>
       </div>
@@ -59,23 +64,25 @@ const RecentEnrollments = ({ enrollments }) => {
 // Component for displaying popular programs
 const PopularPrograms = ({ programs }) => {
   return (
-    <div className="bg-white shadow rounded-lg">
-      <div className="px-4 py-5 sm:px-6">
-        <h3 className="text-lg leading-6 font-medium text-gray-900">Popular Programs</h3>
+    <div className={styles.section}>
+      <div className={styles.sectionHeader}>
+        <h3 className={styles.sectionTitle}>Popular Programs</h3>
       </div>
-      <div className="border-t border-gray-200">
-        <ul className="divide-y divide-gray-200">
+      <div className={styles.sectionBorder}>
+        <ul className={styles.list}>
           {programs.length > 0 ? (
             programs.map((prog, index) => (
-              <li key={index} className="px-4 py-3">
-                <div className="flex items-center justify-between">
-                  <div className="text-sm font-medium text-indigo-600">{prog.program}</div>
-                  <div className="text-sm text-gray-500">{prog.count} clients enrolled</div>
+              <li key={index} className={`${styles.listItem} ${styles.listItemBorder}`}>
+                <div className="flex items-center justify-between w-full">
+                  <div className={styles.programName}>{prog.program}</div>
+                  <div className={styles.enrollmentCount}>{prog.count} clients enrolled</div>
                 </div>
               </li>
             ))
           ) : (
-            <li className="px-4 py-3 text-sm text-gray-500">No program data available</li>
+            <li className={`${styles.listItem} ${styles.listItemBorder}`}>
+              <div className={styles.noDataText}>No program data available</div>
+            </li>
           )}
         </ul>
       </div>
@@ -96,7 +103,8 @@ const Dashboard = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -117,36 +125,54 @@ const Dashboard = () => {
     fetchDashboardData();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-        <div className="text-lg font-medium text-gray-500">Loading dashboard data...</div>
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingText}>Loading dashboard data...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-        <div className="text-red-500">{error}</div>
+      <div className={styles.errorContainer}>
+        <div className={styles.errorText}>{error}</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <div className="flex space-x-4">
+    <div className={styles.container}>
+      <header className={styles.header}>
+        <div className={styles.headerContent}>
+          <h1 className={styles.title}>Dashboard</h1>
+          <div className="flex items-center space-x-4">
             <span className="text-gray-700">Welcome, {user?.name}</span>
+            <button
+              onClick={handleLogout}
+              className="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              <svg className="-ml-0.5 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              Logout
+            </button>
           </div>
         </div>
       </header>
       
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <main className={styles.main}>
         {/* Quick Action Buttons */}
-        <div className="mb-6 flex flex-wrap gap-4">
+        <div className={styles.quickActions}>
           <Link
             to="/programs/new"
             className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -158,7 +184,7 @@ const Dashboard = () => {
           </Link>
           
           <Link
-            to="/clients/new"
+            to="/clients/register"
             className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           >
             <svg className="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -190,7 +216,7 @@ const Dashboard = () => {
         </div>
         
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-6">
+        <div className={styles.statsGrid}>
           <StatCard
             title="Total Clients"
             value={stats.totalClients}
@@ -224,7 +250,7 @@ const Dashboard = () => {
         </div>
         
         {/* Program & Enrollment Info */}
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        <div className={styles.infoGrid}>
           <PopularPrograms programs={stats.popularPrograms} />
           <RecentEnrollments enrollments={stats.recentEnrollments} />
         </div>
