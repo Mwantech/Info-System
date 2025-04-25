@@ -13,6 +13,7 @@ connectDB();
 const authRoutes = require('./routes/authRoutes');
 const programRoutes = require('./routes/programRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
+const clientRoutes= require('./routes/clientRoutes');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/programs', programRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/clients', clientRoutes);
 
 // Base route
 app.get('/', (req, res) => {
