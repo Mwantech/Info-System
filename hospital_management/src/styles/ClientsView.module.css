@@ -474,3 +474,181 @@
     background-color: #F3F4F6;
     color: #4B5563;
   }
+
+  /* Programs section styles */
+.programsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.enrollForm {
+  padding: 1.5rem;
+  background-color: #f7fafc;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 1.5rem;
+}
+
+.enrollForm h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #2d3748;
+}
+
+.formRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.formGroup {
+  flex: 1;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: #4a5568;
+}
+
+.formSelect {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  color: #2d3748;
+}
+
+.enrollButton {
+  padding: 0.5rem 1rem;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.enrollButton:hover {
+  background-color: #2c5282;
+}
+
+.enrollButton:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.messageAlert {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+  background-color: #ebf8ff;
+  border-left: 4px solid #3182ce;
+  color: #2c5282;
+}
+
+/* Program list styles */
+.programsList {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.programsList h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #2d3748;
+}
+
+.programsTable {
+  width: 100%;
+}
+
+.programsTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.programsTable th,
+.programsTable td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+.programsTable th {
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.875rem;
+  background-color: #f7fafc;
+}
+
+.actionCell {
+  width: 180px;
+}
+
+.actionDropdown {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.statusSelect {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.removeButton {
+  padding: 0.25rem 0.5rem;
+  background-color: #f56565;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s ease;
+}
+
+.removeButton:hover {
+  background-color: #c53030;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.active {
+  background-color: #9ae6b4;
+  color: #22543d;
+}
+
+.completed {
+  background-color: #c3dafe;
+  color: #3c366b;
+}
+
+.withdrawn {
+  background-color: #fbd38d;
+  color: #744210;
+}
+
+.noPrograms {
+  padding: 2rem;
+  text-align: center;
+  background-color: #f7fafc;
+  border-radius: 0.5rem;
+  border: 1px dashed #e2e8f0;
+  color: #718096;
+}

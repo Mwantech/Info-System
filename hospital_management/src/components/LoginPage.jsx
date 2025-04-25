@@ -8,13 +8,13 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { login, error } = useAuth();
   const navigate = useNavigate();
-
+  
   const { email, password } = formData;
-
+  
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  
   const onSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -27,15 +27,15 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-
+  
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <h2 className={styles.heading}>Health Information System</h2>
         <p className={styles.subheading}>Sign in to your account</p>
-
+        
         {error && <div className={styles.error}>{error}</div>}
-
+        
         <form className={styles.form} onSubmit={onSubmit}>
           <div className={styles.inputGroup}>
             <input

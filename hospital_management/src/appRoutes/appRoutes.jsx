@@ -4,8 +4,8 @@ import { useAuth } from '../contexts/AuthContext';
 
 // Pages
 import Login from '../components/LoginPage';
-import Dashboard from '../components/Dashboard';
-import ProgramsManagement from '../components/ProgramsManagement';
+import Dashboard from '../pages/Dashboard';
+import ProgramsManagement from '../pages/ProgramsManagement';
 import ClientList from '../components/Clientlists';
 import ClientRegistration from '../components/ClientRegistration';
 import ClientDetail from '../components/ClientView';
