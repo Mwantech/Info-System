@@ -8,13 +8,18 @@ const {
   searchClients,
   enrollClientInProgram,
   removeClientFromProgram,
-  updateEnrollmentStatus
+  updateEnrollmentStatus,
+  getClientPublicProfile
 } = require('../controllers/clientController');
 const { protect } = require('../middleware/auth');
 
 const router = express.Router();
 
-router.use(protect); // All client routes are protected
+// Public API endpoint - No authentication required
+router.get('/:id/profile', getClientPublicProfile);
+
+// Protect all routes below this line
+router.use(protect);
 
 router.route('/search')
   .get(searchClients);

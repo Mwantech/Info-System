@@ -1,8 +1,73 @@
 const Client = require('../models/Client');
 const Program = require('../models/Program');
 
+
+// @desc    Get client public profile
+// @access  Public (No authentication required)
+exports.getClientPublicProfile = async (req, res) => {
+  try {
+    const clientId = req.params.id;
+    
+    // Look up the client
+    const client = await Client.findById(clientId)
+      .populate({
+        path: 'enrollments.program',
+        select: 'name description' // Only include non-sensitive program information
+      });
+    
+    if (!client) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Client not found' 
+      });
+    }
+    
+    // Return only specific, non-sensitive client data
+    const publicProfile = {
+      id: client._id,
+      firstName: client.firstName,
+      lastName: client.lastName,
+      gender: client.gender,
+      age: calculateAge(client.dateOfBirth),
+      programs: client.enrollments.map(enrollment => ({
+        name: enrollment.program.name,
+        description: enrollment.program.description,
+        status: enrollment.status,
+        enrollmentDate: enrollment.enrollmentDate
+      }))
+    };
+    
+    res.status(200).json({
+      success: true,
+      data: publicProfile
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false, 
+      message: error.message 
+    });
+  }
+};
+
+// Helper function to calculate age from date of birth
+const calculateAge = (dateOfBirth) => {
+  if (!dateOfBirth) return null;
+  
+  try {
+    const dob = new Date(dateOfBirth);
+    // Check if date is valid before calculating age
+    if (isNaN(dob.getTime())) {
+      return null;
+    }
+    const ageDifMs = Date.now() - dob.getTime();
+    const ageDate = new Date(ageDifMs);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  } catch (error) {
+    return null;
+  }
+};
+
 // @desc    Get all clients with pagination
-// @route   GET /api/clients
 // @access  Private
 exports.getClients = async (req, res) => {
   try {
@@ -50,7 +115,6 @@ exports.getClients = async (req, res) => {
 };
 
 // @desc    Get single client
-// @route   GET /api/clients/:id
 // @access  Private
 exports.getClient = async (req, res) => {
   try {
@@ -75,7 +139,6 @@ exports.getClient = async (req, res) => {
 };
 
 // @desc    Create new client
-// @route   POST /api/clients
 // @access  Private
 exports.createClient = async (req, res) => {
   try {
@@ -91,7 +154,6 @@ exports.createClient = async (req, res) => {
 };
 
 // @desc    Update client
-// @route   PUT /api/clients/:id
 // @access  Private
 exports.updateClient = async (req, res) => {
   try {
@@ -113,7 +175,6 @@ exports.updateClient = async (req, res) => {
 };
 
 // @desc    Delete client
-// @route   DELETE /api/clients/:id
 // @access  Private
 exports.deleteClient = async (req, res) => {
   try {
@@ -123,7 +184,8 @@ exports.deleteClient = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Client not found' });
     }
     
-    await client.remove();
+    // Use deleteOne() instead of remove()
+    await Client.deleteOne({ _id: req.params.id });
     
     res.status(200).json({ success: true, data: {} });
   } catch (error) {
@@ -132,7 +194,6 @@ exports.deleteClient = async (req, res) => {
 };
 
 // @desc    Search clients
-// @route   GET /api/clients/search
 // @access  Private
 exports.searchClients = async (req, res) => {
   try {
@@ -164,7 +225,6 @@ exports.searchClients = async (req, res) => {
 };
 
 // @desc    Enroll client in a program
-// @route   POST /api/clients/:id/programs
 // @access  Private
 exports.enrollClientInProgram = async (req, res) => {
   try {
@@ -240,7 +300,6 @@ exports.enrollClientInProgram = async (req, res) => {
 };
 
 // @desc    Remove client from a program
-// @route   DELETE /api/clients/:id/programs/:programId
 // @access  Private
 exports.removeClientFromProgram = async (req, res) => {
   try {
@@ -279,7 +338,6 @@ exports.removeClientFromProgram = async (req, res) => {
 };
 
 // @desc    Update client's program enrollment status
-// @route   PUT /api/clients/:id/programs/:programId
 // @access  Private
 exports.updateEnrollmentStatus = async (req, res) => {
   try {
